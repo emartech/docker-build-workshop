@@ -1,2 +1,2 @@
 
-window.console.log("Hello docker BuildKit!");
+window.console.log("Hello dddocker BuildKit!");
