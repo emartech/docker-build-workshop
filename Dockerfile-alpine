@@ -1,11 +1,9 @@
 FROM alpine:3.9
 
 ARG NPM_TOKEN
-ENV DEBIAN_FRONTEND=noninteractive
 ENV CACHE_BUSTER=0
 
-RUN apk update \
-  && apk add \
+RUN apk add --no-cache \
     php7 php7-common php7-opcache \
     curl \
     php7-json \
@@ -16,8 +14,7 @@ RUN apk update \
     php7-xml \
     git \
     unzip \
-    nodejs npm \
-  && rm -rf /var/cache/apk/*
+    nodejs npm
 
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php \
   && php composer-setup.php --install-dir=/usr/local/bin --filename=composer

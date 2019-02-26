@@ -1,0 +1,56 @@
+#syntax = docker/dockerfile:experimental
+
+# composer
+FROM composer:1.8 as composer
+
+ENV CACHE_BUSTER=0
+
+WORKDIR /app
+
+COPY composer.json /app
+RUN --mount=type=cache,target=/tmp/cache \
+  composer install --no-dev
+# RUN composer install --no-dev
+
+
+# git
+FROM alpine/git as git
+
+RUN mkdir -p /app
+WORKDIR /app
+
+RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
+RUN --mount=type=ssh,id=github git clone git@github.com:emartech/magento-app-client.git
+
+
+# frontend
+FROM node:alpine as frontend
+
+ARG NPM_TOKEN
+ENV CACHE_BUSTER=0
+
+RUN mkdir -p /app && mkdir -p /app/public/js
+WORKDIR /app
+COPY package.json webpack.config.js .npmrc ./
+# COPY package.json webpack.config.js ./
+COPY src/frontend src/frontend
+RUN --mount=type=cache,target=/root/.npm \
+  # --mount=type=secret,id=npmrc,target=/app/.npmrc,required \
+  npm install \
+  && npm run build
+
+
+# target
+FROM php:7.2-alpine
+# FROM webdevops/php:alpine
+WORKDIR /app
+
+COPY . /app
+COPY --from=composer /app/vendor /app/vendor
+COPY --from=frontend /app/public/js /app/public/js
+RUN mkdir -p /app/client
+COPY --from=git /app/magento-app-client /app/client
+
+EXPOSE 9000
+
+CMD php -S 0.0.0.0:9000 -t /app/public

@@ -1,7 +1,17 @@
 {
+    "name": "iben/buildkit-workshop",
+    "type": "project",
+    "description": "workshop",
+    "authors": [
+        {
+            "name": "iben12",
+            "email": "iben@iben.hu"
+        }
+    ],
     "require": {
         "guzzlehttp/guzzle": "^6.3",
         "emartech/guzzle-escher-middleware": "^0.2.2",
-        "emartech/escher": "^1.2"
+        "emartech/escher": "^1.2",
+        "psr/log": "^1.0.2"
     }
 }

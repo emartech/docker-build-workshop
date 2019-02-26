@@ -1,13 +1,13 @@
-
+# composer
 FROM composer:1.8 as composer
 
 WORKDIR /app
 
 COPY composer.json /app
-
 RUN composer install --no-dev
 
 
+# frontend
 FROM node:alpine as frontend
 
 ARG NPM_TOKEN
@@ -16,26 +16,13 @@ RUN mkdir -p /app && mkdir -p /app/public/js
 WORKDIR /app
 COPY package.json webpack.config.js .npmrc ./
 COPY src/frontend src/frontend
-
 RUN npm install \
   && npm run build
 
 
-
-FROM alpine:3.9
-
-RUN apk update \
-  && apk add \
-    php7 php7-common php7-opcache \
-    php7-json \
-    php7-openssl \
-    php7-phar \
-    php7-zlib \
-    php7-mbstring \
-    php7-xml \
-    git \
-    unzip \
-  && rm -rf /var/cache/apk/*
+# target
+FROM php:7.2-alpine
+# FROM webdevops/php:alpine
 
 COPY . /app
 COPY --from=composer /app/vendor /app/vendor

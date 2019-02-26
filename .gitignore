@@ -4,3 +4,4 @@ main.bundle.js
 .phpunit.result.cache
 npm-debug.log
 yarn-error.log
+*.secret
