@@ -1,4 +1,4 @@
-# DOCKER BULDKIT WORKSHOP
+# Docker BuildKit Workshop
 
 ## PREFLIGHT
 ### Useful commands
@@ -34,12 +34,13 @@ IMAGE               CREATED             CREATED BY                              
 docker builder|image|volume|system prune
 ```
 ---
-## Step 1: Basic best practices
+## WORKSHOP
+### Step 1: Basic best practices
 ```
 time docker build --build-arg NPM_TOKEN=$NPM_TOKEN -t build-workshop/reference .
 ```
 
-## Step 2: Choose your base image wisely
+### Step 2: Choose your base image wisely
 ```
 time docker build \
   --build-arg NPM_TOKEN=$NPM_TOKEN \
@@ -47,7 +48,7 @@ time docker build \
   -t build-workshop/alpine .
 ```
 
-## Step 3: Multistage build
+### Step 3: Multistage build
 ```
 time docker build \
   --build-arg NPM_TOKEN=$NPM_TOKEN \
@@ -55,7 +56,7 @@ time docker build \
   -t build-workshop/multistage .
 ```
 
-## Step 4: BuildKit
+### Step 4: BuildKit
 With docker build:
 ```
 time docker build \
@@ -73,7 +74,7 @@ DOCKER_BUILDKIT=1 docker build \
   -t build-workshop/multistage .
 ```
 
-## Step 5: Experimental
+### Step 5: Experimental syntax
 Add to `require` in `composer.json`:
 ```
 "laravel/framework": "5.7.24",
