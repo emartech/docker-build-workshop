@@ -19,12 +19,12 @@ RUN apk add --no-cache \
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php \
   && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
-COPY . /app
-RUN cd /app \
-  && composer install
+WORKDIR /app
 
-RUN cd app \
-  && npm install \
+COPY . ./
+RUN composer install
+
+RUN npm install \
   && npm run build
 
 EXPOSE 9000

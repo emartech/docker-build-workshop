@@ -22,7 +22,7 @@ RUN npm install \
 
 # target
 FROM php:7.2-alpine
-# FROM webdevops/php:alpine
+# FROM webdevops/php-nginx:alpine
 
 COPY . /app
 COPY --from=composer /app/vendor /app/vendor

@@ -10,7 +10,6 @@ WORKDIR /app
 COPY composer.json /app
 RUN --mount=type=cache,target=/tmp/cache \
   composer install --no-dev
-# RUN composer install --no-dev
 
 
 # git
@@ -49,7 +48,7 @@ COPY . /app
 COPY --from=composer /app/vendor /app/vendor
 COPY --from=frontend /app/public/js /app/public/js
 RUN mkdir -p /app/client
-COPY --from=git /app/magento-app-client /app/client
+# COPY --from=git /app/magento-app-client /app/client
 
 EXPOSE 9000
 
