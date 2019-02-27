@@ -3,7 +3,7 @@
 ## PREFLIGHT
 ### Useful commands
 ```
-$ docker system df
+docker system df
 TYPE                TOTAL               ACTIVE              SIZE                RECLAIMABLE
 Images              10                  0                   467.4MB             467.4MB (100%)
 Containers          0                   0                   0B                  0B
@@ -12,14 +12,14 @@ Build Cache         42                  0                   113.5MB             
 ```
 
 ```
-$ docker diff mycontainer
+docker diff mycontainer
 A /tmp/addedfile
 D /tmp/deletedfile
 C /tmp/changedfile
 ```
 
 ```
-$ docker history node:alpine
+docker history node:alpine
 IMAGE               CREATED             CREATED BY                                      SIZE
 25969f50f21d        7 days ago          /bin/sh -c #(nop)  CMD ["node"]                 0B
 <missing>           7 days ago          /bin/sh -c apk add --no-cache --virtual .bui…   5.1MB
@@ -31,17 +31,17 @@ IMAGE               CREATED             CREATED BY                              
 ```
 
 ```
-$ docker builder|image|volume|system prune
+docker builder|image|volume|system prune
 ```
 ---
 ## Step 1: Basic best practices
 ```
-$ time docker build --build-arg NPM_TOKEN=$NPM_TOKEN -t build-workshop/reference .
+time docker build --build-arg NPM_TOKEN=$NPM_TOKEN -t build-workshop/reference .
 ```
 
 ## Step 2: Choose your base image wisely
 ```
-$ time docker build \
+time docker build \
   --build-arg NPM_TOKEN=$NPM_TOKEN \
   -f Dockerfile-alpine \
   -t build-workshop/alpine .
@@ -49,7 +49,7 @@ $ time docker build \
 
 ## Step 3: Multistage build
 ```
-$ time docker build \
+time docker build \
   --build-arg NPM_TOKEN=$NPM_TOKEN \
   -f Dockerfile-multistage \
   -t build-workshop/multistage .
@@ -58,7 +58,7 @@ $ time docker build \
 ## Step 4: BuildKit
 With docker build:
 ```
-$ time docker build \
+time docker build \
   --no-cache \
   --build-arg NPM_TOKEN=$NPM_TOKEN \
   -f Dockerfile-multistage \
@@ -66,7 +66,7 @@ $ time docker build \
 ```
 With BuildKit:
 ```
-$ DOCKER_BUILDKIT=1 docker build \
+DOCKER_BUILDKIT=1 docker build \
   --no-cache \
   --build-arg NPM_TOKEN=$NPM_TOKEN \
   -f Dockerfile-multistage \
@@ -80,21 +80,21 @@ Add to `require` in `composer.json`:
 ```
 With build `ARG`:
 ```
-$ DOCKER_BUILDKIT=1 docker build \
+DOCKER_BUILDKIT=1 docker build \
 --build-arg NPM_TOKEN=$NPM_TOKEN \
 -f Dockerfile-experimental \
 -t build-workshop/experimental .
 ```
 With secret:
 ```
-$ DOCKER_BUILDKIT=1 docker build \
+DOCKER_BUILDKIT=1 docker build \
 --secret id=npmrc,src=.npmrc.secret \
 -f Dockerfile-experimental \
 -t build-workshop/experimental .
 ```
 With SSH:
 ```
-$ DOCKER_BUILDKIT=1 docker build \
+DOCKER_BUILDKIT=1 docker build \
 --ssh github=/Users/<your_username>/.ssh/id_rsa \
 --secret id=npmrc,src=.npmrc.secret \
 -f Dockerfile-experimental \
