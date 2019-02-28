@@ -4,10 +4,8 @@ ARG NPM_TOKEN
 ENV DEBIAN_FRONTEND=noninteractive
 ENV CACHE_BUSTER=0
 
-COPY . /app
-
-RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get update \
+  && apt-get install -y \
     curl \
     gnupg2 \
     php-cli \
@@ -18,17 +16,19 @@ RUN apt-get install -y \
     nano \
   && curl -sL https://deb.nodesource.com/setup_11.x | bash - \
   && apt-get update \
-  && apt-get install -y nodejs
-RUN rm -rf /var/lib/apt/lists/*
+  && apt-get install -y nodejs \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php \
   && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
-RUN cd /app \
-  && composer install
+COPY . /app
 
-RUN cd app \
-  && npm install \
+WORKDIR /app
+
+RUN composer install
+
+RUN npm install \
   && npm run build
 
 EXPOSE 9000

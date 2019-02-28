@@ -1,6 +1,15 @@
 # Docker BuildKit Workshop
 
 ## PREFLIGHT
+### Get the images
+```
+docker pull alpine:3.9 && \
+docker pull ubuntu:18.04 && \
+docker pull node:alpine && \
+docker pull composer:1.8 && \
+docker pull php:7.2-alpine
+```
+
 ### Useful commands
 ```
 docker system df
@@ -33,6 +42,13 @@ IMAGE               CREATED             CREATED BY                              
 ```
 docker builder|image|volume|system prune
 ```
+### Play-with-docker
+* Go to [https://labs.play-with-docker.com/](https://labs.play-with-docker.com/)
+* Login & Start
+* Create node
+* `wget https://github.com/emartech/docker-build-workshop/archive/master.tar.gz`
+* `tar -xzf master.tar.gz`
+* `cd docker-build-workshop-master`
 ---
 ## WORKSHOP
 ### Step 1: Basic best practices
