@@ -21,7 +21,7 @@ RUN curl -sS https://getcomposer.org/installer -o composer-setup.php \
 
 WORKDIR /app
 
-COPY . ./
+COPY . /app
 RUN composer install
 
 RUN npm install \
